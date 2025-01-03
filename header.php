@@ -1,18 +1,30 @@
-
-
 <style>
-        nav{
-            background: rgb(205, 229, 252);
-            background: linear-gradient(133deg, rgba(219, 235, 250, 0.99) 0%, rgba(214,229,255,0.9641106442577031) 23%, rgba(243, 218, 218, 0.96) 48%, rgba(242, 216, 232, 0.96) 85%);
-        }
-    </style>
-   <?php
-    
-   
-   ?> 
-<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top ">
-  <div class="container-fluid">
-    <a class="navbar-brand "  href="#"><p class="h1">khata Book</p></a>
+  header {
+    background-color: #003366;
+    /* Midnight Blue, suitable for header */
+    color: #ffffff;
+    /* White text for contrast */
+    padding: 15px;
+    text-align: center;
+  }
+
+  header h1 {
+    color: #9edc29;
+    /* Logo color for the header title */
+    font-size: 2rem;
+  }
+</style>
+<?php
+
+
+?>
+
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top z-0 ">
+  <div class="container-fluid ">
+    <a class="navbar-brand " href="#">
+      <p class=""><img src="images/Final Clearifi/png/logo-no-background.png" class="img-fluid" height="100" width="200" alt=""></p>
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -25,9 +37,6 @@
         <ul class="navbar-nav justify-content-center flex-grow-1 pe-3 h5">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="register.php">Register</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -44,7 +53,7 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Account</a>
           </li>
-        <li class="nav-item">
+          <li class="nav-item">
             <button class="btn btn-danger" onclick="logout()">Logout</button>
           </li>
         </ul>

@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['user_id'])) {
-  header("Location: dashboard.php"); // Redirect to dashboard if already logged in
+  header("Location: khatabook.php"); // Redirect to dashboard if already logged in
   exit;
 }
 ?>
@@ -15,26 +15,57 @@ if (isset($_SESSION['user_id'])) {
   <title>Login</title>
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
+  <style>
+    body,
+    html {
+      height: 100%;
+      margin: 0;
+    }
+
+    .background-radial-gradient {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, rgba(33, 37, 41, 1) 0%, rgba(58, 61, 66, 1) 50%, rgba(0, 0, 0, 1) 100%);
+      color: #fff;
+    }
+
+    .bg-glass {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 2rem;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 
-<body style="background-color:wheat;">
-
-  <section class="background-radial-gradient overflow-hidden">
-    <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
-      <div class="row gx-lg-5 align-items-center mb-5">
-        <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
-          <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
+<body>
+  <section class="background-radial-gradient">
+    <div class="container px-4 py-5 px-md-5 text-center text-lg-start">
+      <div class="row gx-lg-5 align-items-center">
+        <div class="col-lg-6 mb-5 mb-lg-0">
+          <h1 class="my-5 display-5 fw-bold ls-tight">
             Welcome to <br />
             <span style="color: hsl(218, 81%, 75%)">Khata Book</span>
           </h1>
-          <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
+          <p class="mb-4 opacity-70">
             Please enter your credentials to log in.
           </p>
         </div>
 
-        <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+        <div class="col-lg-6 position-relative">
           <div class="card bg-glass">
-            <div class="card-body px-4 py-5 px-md-5">
+            <div class="card-body">
               <form action="login_action.php" method="post">
                 <!-- Email input -->
                 <div class="form-outline mb-4">
