@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 $host = 'localhost'; // your database host
 $dbname = 'khata_book'; // your database name
 $username = 'root'; // your database username

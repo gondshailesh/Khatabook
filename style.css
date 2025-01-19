@@ -92,3 +92,39 @@
 .bxfive {
   height: 180px;
 }
+
+.body {
+  background-color: whitesmoke;
+}
+
+/* Make the container div scrollable */
+.container-main {
+  max-height: 1000px;
+  overflow-y: auto;
+}
+
+.spacingtop {
+  margin-top: 20px;
+}
+
+/* Adjust text size for small devices */
+@media (max-width: 767px) {
+  .h2 {
+    font-size: 1.5rem;
+  }
+
+  .clr {
+    padding: 2rem;
+  }
+
+  .bxone,
+  .bxtwo,
+  .bxthree,
+  .bxfour {
+    padding: 1.5rem;
+  }
+
+  .content-center {
+    text-align: center;
+  }
+}
