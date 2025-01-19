@@ -20,11 +20,19 @@ if (isset($_POST['income'])) {
     $totalAmount = $_POST['totalAmount'];
     $incomeType = $_POST['incomeType'];
     $incomeDate = $_POST['incomeDate'];
+  }
 
-    print_r($incomeDate);
-    print_r($incomeSource);
-    print_r($incomeType);
-    print_r($incomeDate);
+  // Insert data into the database
+  try {
+    $sql = "INSERT INTO income (incomeSource, totalAmount, incomeType, incomeDate)
+                VALUES (?, ?, ?, ?)";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$incomeSource, $totalAmount, $incomeType, $incomeDate]);
+
+    echo "Successfully added information of Income ";
+  } catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
   }
 }
 ?>
@@ -45,7 +53,8 @@ if (isset($_POST['income'])) {
 
 <body class="body">
 
-  <?php include 'header.php'; ?>
+  <?php include 'header.php';
+  ?>
 
   <!-- Main Buttons Section -->
   <div class="container container-main shadow mt-lg-5 rounded-1">
@@ -138,6 +147,31 @@ if (isset($_POST['income'])) {
     </div>
   </div>
 
+
+  <?php
+  if (isset($_POST['daily'])) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      $investmentSource = $_POST['investmentSource'];
+      $investmentAmount = $_POST['investmentAmount'];
+      $interestRate = $_POST['interestRate'];
+      $investmentType = $_POST['investmentType'];
+      $investmentDate = $_POST['investmentDate'];
+    }
+
+    // Insert data into the database
+    try {
+      $sql = "INSERT INTO daily (investmentSource, investmentAmount, interestRate, investmentType, investmentDate)
+                VALUES (?, ?, ?, ?,?)";
+
+      $stmt = $pdo->prepare($sql);
+      $stmt->execute([$investmentSource, $investmentAmount, $interestRate, $investmentType, $investmentDate]);
+
+      echo "Successfully added information of Income ";
+    } catch (PDOException $e) {
+      echo "Error: " . $e->getMessage();
+    }
+  }
+  ?>
   <!-- Modal Daily Investment -->
   <div class="modal fade" id="dailyInvestmentModal" tabindex="-1" aria-labelledby="dailyInvestmentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -150,7 +184,7 @@ if (isset($_POST['income'])) {
           <div class="container">
             <h2 class="text-center mb-4">Add Daily Investment Information</h2>
 
-            <form action="submit_daily_investment.php" method="POST">
+            <form action="" method="POST">
               <!-- Investment Source -->
               <div class="form-group">
                 <label for="investmentSource">Investment Source:</label>
@@ -190,7 +224,7 @@ if (isset($_POST['income'])) {
 
               <!-- Submit Button -->
               <div class="form-group text-center">
-                <button type="submit" class="btn btn-primary mt-5">Submit</button>
+                <button type="submit" name="daily" class="btn btn-primary mt-5">Submit</button>
               </div>
             </form>
           </div>
