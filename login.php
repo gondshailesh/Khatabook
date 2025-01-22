@@ -16,6 +16,9 @@ if (isset($_SESSION['user_id'])) {
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="images/fav_icon.png" type="image/x-icon">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
 </head>
 <style>
@@ -30,24 +33,72 @@ if (isset($_SESSION['user_id'])) {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle, rgba(33, 37, 41, 1) 0%, rgba(58, 61, 66, 1) 50%, rgba(0, 0, 0, 1) 100%);
+    background: linear-gradient(56deg, rgba(245, 224, 101, 0.387) 0%, rgba(245, 155, 219, 0.586) 47%, rgba(245, 165, 207, 0.353) 100%);
     color: #fff;
   }
 
   .bg-glass {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
     border-radius: 15px;
     padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   }
 
   .btn-primary {
-    background-color: #007bff;
+    background-color: rgba(245, 224, 101, 0.8);
     border: none;
+    color: #333;
   }
 
   .btn-primary:hover {
-    background-color: #0056b3;
+    background-color: rgba(245, 155, 219, 0.9);
+    border: none;
+  }
+
+  .form-outline input {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .form-label {
+    font-weight: bold;
+  }
+
+  .text-center a {
+    color: #f5a5cf;
+    /* Matching the gradient's colors */
+    text-decoration: none;
+  }
+
+  .text-center a:hover {
+    color: #f59bdb;
+    /* Lighter hover color */
+  }
+
+  /* Additional Styling for text and container */
+  h1 {
+    color: rgba(33, 37, 41, 0.8);
+  }
+
+  p.mb-4 {
+    color: rgba(33, 37, 41, 0.7);
+  }
+
+  /* Form Container */
+  .card {
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .container {
+    padding: 0 3rem;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 0 1.5rem;
+    }
   }
 </style>
 
@@ -58,16 +109,16 @@ if (isset($_SESSION['user_id'])) {
         <div class="col-lg-6 mb-5 mb-lg-0">
           <h1 class="my-5 display-5 fw-bold ls-tight">
             Welcome to <br />
-            <span style="color: hsl(218, 81%, 75%)">Khata Book</span>
+            <img src="images/Clearifi/png/logo-no-background.png" class="img-fluid" alt="clarifi">
           </h1>
           <p class="mb-4 opacity-70">
             Please enter your credentials to log in.
           </p>
         </div>
 
-        <div class="col-lg-6 position-relative">
-          <div class="card bg-glass">
-            <div class="card-body">
+        <div class="col-lg-6 position-relative ">
+          <div class="card bg-light">
+            <div class="card-body mt-5">
               <form action="login_action.php" method="post">
                 <!-- Email input -->
                 <div class="form-outline mb-4">

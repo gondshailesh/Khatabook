@@ -8,7 +8,9 @@
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="images/fav_icon.png" type="image/x-icon">
-
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
 
 <body class="body">
@@ -29,10 +31,10 @@
     }
   </style>
 
-  <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top z-0">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary z-1">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
-        <img src="images/Final Clearifi/png/logo-no-background.png" class="img-fluid" height="100" width="200" alt="Logo">
+        <img src="images/Clearifi/png/logo-no-background.png" class="img-fluid" height="100" width="200" alt="Logo">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -45,7 +47,7 @@
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-center flex-grow-1 pe-3 h5">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link active" aria-current="page" href="khatabook.php">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Profile</a>
