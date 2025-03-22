@@ -6,14 +6,12 @@ session_start();
 
 
 
-
 if (!isset($_SESSION['user_id'])) {
-  header("Location: login.php");
-  exit;
+  header('Location: login.php');
+  exit();
 }
 include('conn.php');
 // Handle form submission
-
 if (isset($_POST['income'])) {
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $incomeSource = $_POST['incomeSource'];
@@ -36,27 +34,51 @@ if (isset($_POST['income'])) {
   }
 }
 
-
-// Fetch total amount from the 'expenseAmount' column
 try {
-  $sql = "SELECT SUM(expenseAmount) AS totalAmount FROM daily_expenses";
-  $stmt = $pdo->query($sql);  // Execute the query
-  $result = $stmt->fetch(PDO::FETCH_ASSOC);  // Fetch the result
+  // Fetch total amount from 'daily'
+  $sql_daily = "SELECT SUM(investmentAmount) AS investmentAmount FROM daily";
+  $stmt_daily = $pdo->query($sql_daily);
+  $daily_result = $stmt_daily->fetch(PDO::FETCH_ASSOC);
 
-  // If there's a result, display the total amount
-  if ($result) {
-  } else {
-    echo "No expenses found.";
-  }
+
+  // Fetch total amount from 'giventaken'
+  $sql_giventaken = "SELECT SUM(AmountgivenTaken) AS totalGivenTaken FROM giventaken";
+  $stmt_giventaken = $pdo->query($sql_giventaken);
+  $giventaken_result = $stmt_giventaken->fetch(PDO::FETCH_ASSOC);
+
+  // Fetch total amount from 'income'
+  $sql_income = "SELECT SUM(totalAmount) AS totalIncome FROM income";
+  $stmt_income = $pdo->query($sql_income);
+  $income_result = $stmt_income->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-  // Handle errors (e.g., if the query fails)
   echo "Error: " . $e->getMessage();
 }
-// Fetch total amount from the 'expenseAmount' column
-$sql = "SELECT SUM(expenseAmount) AS totalAmount FROM daily_expenses";
-$stmt = $pdo->query($sql);  // Execute the query
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
-// If there's a result, display the total amount
+
+
+
+
+try {
+  // Fetch total amount from 'daily_expenses'
+  $sql_expenses = "SELECT SUM(expenseAmount) AS totalExpenses FROM daily_expenses";
+  $stmt_expenses = $pdo->query($sql_expenses);
+  $expenses_result = $stmt_expenses->fetch(PDO::FETCH_ASSOC);
+
+  // Fetch total amount from 'giventaken'
+  $sql_giventaken = "SELECT SUM(AmountgivenTaken) AS totalGivenTaken FROM giventaken";
+  $stmt_giventaken = $pdo->query($sql_giventaken);
+  $giventaken_result = $stmt_giventaken->fetch(PDO::FETCH_ASSOC);
+
+  // Fetch total amount from 'income'
+  $sql_income = "SELECT SUM(totalAmount) AS totalIncome FROM income";
+  $stmt_income = $pdo->query($sql_income);
+  $income_result = $stmt_income->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+  echo "Error: " . $e->getMessage();
+}
+
+
+
+
 
 ?>
 
@@ -70,14 +92,15 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="images/fav_icon.png" type="image/x-icon">
+  <!-- Include jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
 
 
 
-<body class="body" style="background: rgb(245,224,101);
-background: linear-gradient(56deg, rgba(245,224,101,0.38707983193277307) 0%, rgba(245,155,219,0.5859593837535014) 47%, rgba(245,165,207,0.3534663865546218) 100%);
-">
+<body class="body" style="background: rgb(255,235,115);
+background: radial-gradient(circle, rgba(255,235,115,0.5635504201680672) 0%, rgba(245,204,233,0.5467436974789917) 31%, rgba(245,165,207,0.3534663865546218) 77%, rgba(245,243,165,0.3534663865546218) 100%, rgba(245,204,233,1) 120%);">
 
   <?php include 'header.php';
 
@@ -85,6 +108,37 @@ background: linear-gradient(56deg, rgba(245,224,101,0.38707983193277307) 0%, rgb
 
 
   ?>
+  <style>
+    /* Hover effect for buttons */
+    .btn:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Hover effect for cards with animation */
+    .clr:hover {
+      background-color: black;
+      color: black;
+      transform: scale(1.05);
+      animation: cardHover 0.3s ease-in-out;
+      transition: all 0.3s ease;
+    }
+
+    @keyframes cardHover {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
   <section>
     <div class="text-center mt-4 mb-5">
       <!-- Button to open the modal -->
@@ -94,44 +148,79 @@ background: linear-gradient(56deg, rgba(245,224,101,0.38707983193277307) 0%, rgb
       <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target="#dailyExpensesModal">Daily Expenses </button>
     </div>
   </section>
-  <div class="container container-main  mt-lg-5 rounded-1">
+
+  <div class="container container-main mt-lg-5 rounded-1">
     <div class="mt-lg-5">
       <div class="spacingtop">
         <div class="row mt-3 justify-content-center text-center">
-          <div class="col-lg-5 col-md-6 col-sm-12 bg-light bg-opacity-25 rounded-1 shadow  m-2 p-5 clr p-3 bxone content-center">
+
+          <!-- Monthly Income Card with Hover and Scroll Animation -->
+          <div class="col-lg-5 col-md-6 col-sm-12 bg-light bg-opacity-25 rounded-1 shadow m-2 p-5 clr p-3 content-center animate__animated animate__fadeIn"
+            data-aos="fade-up" data-aos-delay="100">
             <p class="h2">Monthly Income</p>
             <p>like salary/Business/</p>
+            <?php
+
+            // Display total income
+            if ($income_result) {
+              echo "<p>Total Income: " . $income_result['totalIncome'] . "</p>";
+            } else {
+              echo "No income data found.";
+            }
+            ?>
           </div>
-          <div class="col-lg-5 col-md-6 col-sm-12 bg-light bg-opacity-25 rounded-1 shadow  m-2 p-5 clr p-3 bxtwo content-center">
+
+          <!-- Daily Investment Card with Hover and Scroll Animation -->
+          <div class="col-lg-5 col-md-6 col-sm-12 bg-light bg-opacity-25 rounded-1 shadow m-2 p-5 clr p-3 content-center animate__animated animate__fadeIn"
+            data-aos="fade-up" data-aos-delay="200">
             <p class="h2">Daily Investment</p>
             <p>like stock investment</p>
-          </div>
-          <div class="col-lg-5 col-md-6 col-sm-12 bg-light bg-opacity-25 rounded-1 shadow m-2 p-5 clr p-3 bxthree content-center">
-            <p class="h2">Given & Take</p>
-            <p>Record Maintenance</p>
-          </div>
-          <div class="col-lg-5 col-md-6 col-sm-12 bg-light bg-opacity-25 rounded-1 shadow  m-2 p-5 clr p-3 bxfour content-center">
-
-            <p class="h2">Daily Expenses</p>
-            <p>Weekly/Monthly/Yearly Report Generation</p>
             <?php
-            if ($result) {
-              echo "<p class=''>Total Daily expense Amount: " . $result['totalAmount'] . "</p>  ";
+            if ($daily_result) {
+              echo "<p>Totsl  inventment Till Now " . $daily_result['investmentAmount'] . "</p>";
             } else {
-              echo "No expenses found.";
+              echo "No given/taken data found.";
             }
-
-
             ?>
 
           </div>
+
+          <!-- Given & Take Card with Hover and Scroll Animation -->
+          <div class="col-lg-5 col-md-6 col-sm-12 bg-light bg-opacity-25 rounded-1 shadow m-2 p-5 clr p-3 content-center animate__animated animate__fadeIn"
+            data-aos="fade-up" data-aos-delay="300">
+            <p class="h2">Given & Take</p>
+            <p>Record Maintenance</p>
+            <?php
+
+            // Display total given/taken
+            if ($giventaken_result) {
+              echo "<p>Total Given/Taken: " . $giventaken_result['totalGivenTaken'] . "</p>";
+            } else {
+              echo "No given/taken data found.";
+            }
+
+            ?>
+          </div>
+
+          <!-- Daily Expenses Card with Hover and Scroll Animation -->
+          <div class="col-lg-5 col-md-6 col-sm-12 bg-light bg-opacity-25 rounded-1 shadow m-2 p-5 clr p-3 content-center animate__animated animate__fadeIn"
+            data-aos="fade-up" data-aos-delay="400">
+            <p class="h2">Daily Expenses</p>
+            <p>Weekly/Monthly/Yearly Report Generation</p>
+            <?php
+            // Display total expenses
+            if ($expenses_result) {
+              echo "<p>Total Daily Expenses: " . $expenses_result['totalExpenses'] . "</p>";
+            } else {
+              echo "No expenses found.";
+            }
+            ?>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
-
-
-
 
   </div>
 
@@ -307,20 +396,34 @@ background: linear-gradient(56deg, rgba(245,224,101,0.38707983193277307) 0%, rgb
       $dateReturning = $_POST['dateReturning'] ?? '';
       $transactionMessage = $_POST['transactionMessage'] ?? '';
 
+      // Prepare data for insert
+      $dateColumn = '';
+      $dateValue = '';
+
+      if ($status == 'giver') {
+        $dateColumn = 'dateGiven';
+        $dateValue = $dateGiven;
+      } elseif ($status == 'taker') {
+        $dateColumn = 'dateTaken';
+        $dateValue = $dateTaken;
+      }
+
       // Insert data into the database
       try {
-        $sql = "INSERT INTO giventaken (name, status, dateGiven, dateTaken, dateReturning, transactionMessage)
-                    VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO giventaken (name, status, $dateColumn, dateReturning, transactionMessage, AmountgivenTaken)
+            VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$name, $status, $dateGiven, $dateTaken, $dateReturning, $transactionMessage]);
+        $stmt->execute([$name, $status, $dateValue, $dateReturning, $transactionMessage, $AmountgivenTaken]);
 
-        echo "Successfully added information of Given OR Taken.";
+        // Success message with alert at the top of the page
+        echo "<div class='alert alert-success alert-dismissible fade show text-center' style='position: fixed; top: 0; left: 0; right: 0; z-index: 1050; padding: 10px 0; font-size: 16px;'>
+          Successfully added information of Given OR Taken.
+        </div>";
       } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
       }
     }
-  }
-  ?>
+  } ?>
 
   <!-- Modal Given & Taken -->
   <div class="modal fade" id="givenTakenModal" tabindex="-1" aria-labelledby="givenTakenModalLabel" aria-hidden="true">
@@ -341,7 +444,7 @@ background: linear-gradient(56deg, rgba(245,224,101,0.38707983193277307) 0%, rgb
                 <input type="text" class="form-control" id="name" name="name" required>
               </div>
               <div class="form-group">
-                <label for="name">Amount Given or taken:</label>
+                <label for="AmountgivenTaken">Amount Given or Taken:</label>
                 <input type="number" class="form-control" id="AmountgivenTaken" name="AmountgivenTaken" required>
               </div>
 
@@ -391,6 +494,35 @@ background: linear-gradient(56deg, rgba(245,224,101,0.38707983193277307) 0%, rgb
       </div>
     </div>
   </div>
+
+
+  <script>
+    // Function to toggle visibility of date input fields based on the status
+    function toggleDateFields() {
+      var status = document.getElementById('status').value;
+      var dateGivenGroup = document.getElementById('dateGivenGroup');
+      var dateTakenGroup = document.getElementById('dateTakenGroup');
+
+      if (status === 'giver') {
+        dateGivenGroup.style.display = 'block'; // Show date of giving
+        dateTakenGroup.style.display = 'none'; // Hide date of taking
+      } else if (status === 'taker') {
+        dateGivenGroup.style.display = 'none'; // Hide date of giving
+        dateTakenGroup.style.display = 'block'; // Show date of taking
+      }
+    }
+
+    // Initialize on page load to show the correct date field
+    document.addEventListener('DOMContentLoaded', function() {
+      toggleDateFields();
+    });
+  </script>
+
+
+
+
+
+
   <div class="container">
     <?php
     // Establish PDO connection
@@ -473,7 +605,7 @@ background: linear-gradient(56deg, rgba(245,224,101,0.38707983193277307) 0%, rgb
       if ($users_result) {
         echo "<h2>Users Table</h2>";
         echo "<div class='table-responsive'>
-            <table class='table table-striped table-bordered w-100 shadow'>
+            <table class='table table-striped table-bordered w-100 shadow p-5'>
                 <thead>
                     <tr>
                         <th>User ID</th>
@@ -503,7 +635,7 @@ background: linear-gradient(56deg, rgba(245,224,101,0.38707983193277307) 0%, rgb
       if ($daily_result) {
         echo "<h2>Daily Investments Table</h2>";
         echo "<div class='table-responsive'>
-            <table class='table table-striped table-bordered w-100 shadow'>
+            <table class='table table-striped table-bordered w-100 shadow p-5'>
                 <thead>
                     <tr>
                         <th>Daily ID</th>
@@ -551,32 +683,74 @@ background: linear-gradient(56deg, rgba(245,224,101,0.38707983193277307) 0%, rgb
       } else {
         echo "No daily expenses data found.<br>";
       }
+      // Assuming $giventaken_result is your data array or query result
 
-      if ($giventaken_result) {
+      // Pagination variables
+      $records_per_page = 5;
+      $total_records = count($giventaken_result); // or use a database query to count records if you're using SQL
+      $total_pages = ceil($total_records / $records_per_page);
+
+      // Get the current page number, default is 1
+      $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+      // Calculate the starting record for the current page
+      $start_record = ($current_page - 1) * $records_per_page;
+
+      // Slice the result array to get the records for the current page
+      $paged_result = array_slice($giventaken_result, $start_record, $records_per_page);
+
+      if ($paged_result) {
         echo "<h2>Given/Taken Table</h2>";
         echo "<div class='table-responsive'>
-            <table class='table table-striped table-bordered w-100 shadow'>
-                <thead>
-                    <tr>
-                        <th>Given/Taken ID</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th>Date Given</th>
-                        <th>Date Taken</th>
-                        <th>Date Returning</th>
-                        <th>Transaction Message</th>
-                        <th>Amount Given/Taken</th>
-                    </tr>
-                </thead>
-                <tbody>";
-        foreach ($giventaken_result as $gt) {
+        <table class='table table-striped table-bordered w-100 shadow p-5'>
+            <thead>
+                <tr>
+                    <th>Given/Taken ID</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Date Given</th>
+                    <th>Date Taken</th>
+                    <th>Date Returning</th>
+                    <th>Transaction Message</th>
+                    <th>Amount Given/Taken</th>
+                </tr>
+            </thead>
+            <tbody>";
+
+        // Loop through the paged result and display each record
+        foreach ($paged_result as $gt) {
           echo "<tr>";
           foreach ($gt as $value) {
             echo "<td>" . $value . "</td>";
           }
           echo "</tr>";
         }
+
         echo "</tbody></table></div><br>";
+
+        // Pagination links
+        echo "<div class='pagination'>";
+
+        // Previous page link
+        if ($current_page > 1) {
+          echo "<a href='?page=" . ($current_page - 1) . "'>&laquo; Previous</a>";
+        }
+
+        // Page number links
+        for ($page = 1; $page <= $total_pages; $page++) {
+          if ($page == $current_page) {
+            echo "<span class='current'>" . $page . "</span>";
+          } else {
+            echo "<a href='?page=" . $page . "'>" . $page . "</a>";
+          }
+        }
+
+        // Next page link
+        if ($current_page < $total_pages) {
+          echo "<a href='?page=" . ($current_page + 1) . "'>Next &raquo;</a>";
+        }
+
+        echo "</div>"; // Close pagination
       } else {
         echo "No given/taken data found.<br>";
       }
@@ -584,7 +758,7 @@ background: linear-gradient(56deg, rgba(245,224,101,0.38707983193277307) 0%, rgb
       if ($income_result) {
         echo "<h2>Income Table</h2>";
         echo "<div class='table-responsive'>
-            <table class='table table-striped table-bordered w-100 shadow'>
+            <table class='table table-striped table-bordered w-100 shadow p-5'>
                 <thead>
                     <tr>
                         <th>Income ID</th>
@@ -606,6 +780,7 @@ background: linear-gradient(56deg, rgba(245,224,101,0.38707983193277307) 0%, rgb
       } else {
         echo "No income data found.<br>";
       }
+
 
       ?>
   </div>
@@ -672,14 +847,23 @@ background: linear-gradient(56deg, rgba(245,224,101,0.38707983193277307) 0%, rgb
 
 
 
-
-
-
+<!-- AOS JS -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<!-- Initialize AOS -->
+<script>
+  AOS.init({
+    duration: 1000, // animation duration
+    easing: 'ease-in-out', // easing effect for animation
+    once: true, // animation happens only once when scrolling to the element
+  });
+</script>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-
+<?php
+require_once('footer.php');
+?>
 </body>
 
 </html>

@@ -117,9 +117,9 @@ if (isset($_SESSION['user_id'])) {
         </div>
 
         <div class="col-lg-6 position-relative ">
-          <div class="card bg-light">
-            <div class="card-body mt-5">
-              <form action="login_action.php" method="post">
+          <div class="card bg-light shadow-lg">
+            <div class="card-body mt-5 ">
+              <form class="" action="login_action.php" method="post">
                 <!-- Email input -->
                 <div class="form-outline mb-4">
                   <input type="email" id="email" class="form-control" name="email" required />

@@ -51,13 +51,3 @@ document
 
     return true;
   });
-
-window.addEventListener("scroll", () => {
-  const boxes = document.querySelectorAll(".bxone, .bxtwo, .bxthree, .bxfour");
-  boxes.forEach((box) => {
-    const rect = box.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.8) {
-      box.classList.add("fadeInUp"); // Add the fadeInUp class to trigger the animation
-    }
-  });
-});
