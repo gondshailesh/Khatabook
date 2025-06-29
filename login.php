@@ -132,16 +132,25 @@ if (isset($_SESSION['user_id'])) {
                   <label class="form-label" for="dob">Date of Birth</label>
                 </div>
 
-                <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4">
-                  Log In
-                </button>
-
-                <!-- Register button -->
                 <div class="text-center">
-                  <p>If you don't have an account, <a href="register.php">Click here to Register</a></p>
+                  <!-- Submit button -->
+                  <button type="submit" class="btn btn-secondary mb-4">
+                    Log In
+                  </button>
+                  <a href="admin/login.php" class="btn btn-warning mb-4 text-dark">
+                    Admin login
+                  </a>
                 </div>
               </form>
+
+
+              <!-- Register button -->
+              <div class="text-center">
+
+                <p>If you don't have an account, <a href="register.php">Click here to Register</a></p>
+              </div>
+
+
             </div>
           </div>
         </div>

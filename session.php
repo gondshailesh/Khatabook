@@ -28,4 +28,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Phone number should be at least 10 digits";
         exit; // Stop further processing
     }
+}
 ?>

@@ -89,8 +89,11 @@ try {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashbord</title>
+  <!-- Include Bootstrap -->
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <!-- Include custom css -->
   <link rel="stylesheet" href="style.css">
+  <!-- Include favicon image -->
   <link rel="icon" href="images/fav_icon.png" type="image/x-icon">
   <!-- Include jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -98,17 +101,19 @@ try {
 </head>
 
 
+<div class="body" style="">
 
-<body class="body" style="background: rgb(255,235,115);
-background: radial-gradient(circle, rgba(255,235,115,0.5635504201680672) 0%, rgba(245,204,233,0.5467436974789917) 31%, rgba(245,165,207,0.3534663865546218) 77%, rgba(245,243,165,0.3534663865546218) 100%, rgba(245,204,233,1) 120%);">
 
   <?php include 'header.php';
 
-  // Fetch total amount from the 'expenseAmount' column
-
-
   ?>
   <style>
+    /*bg body*/
+    .body {
+      background: rgb(222, 240, 255);
+      background: linear-gradient(117deg, rgba(222, 240, 255, 0.5635504201680672) 0%, rgba(192, 237, 255, 0.5467436974789917) 31%, rgba(204, 205, 242, 0.6694327389158788) 64%, rgba(181, 182, 182, 0.3534663865546218) 100%, rgba(245, 204, 233, 1) 120%);
+    }
+
     /* Hover effect for buttons */
     .btn:hover {
       background-color: #0056b3;
@@ -125,6 +130,10 @@ background: radial-gradient(circle, rgba(255,235,115,0.5635504201680672) 0%, rgb
       transition: all 0.3s ease;
     }
 
+    .clr {
+      color: whitesmoke;
+    }
+
     @keyframes cardHover {
       0% {
         transform: scale(1);
@@ -138,9 +147,131 @@ background: radial-gradient(circle, rgba(255,235,115,0.5635504201680672) 0%, rgb
         transform: scale(1);
       }
     }
+
+    /* Card Styles with Inner Shadow and Outer Glow */
+    .card-summary {
+      border-radius: 15px;
+      box-shadow:
+        inset 0 0 15px rgba(0, 0, 0, 0.1),
+        /* Inner shadow */
+        0 0 20px 5px rgba(13, 202, 240, 0.2);
+      /* Outer glow (20% opacity) */
+      transition: all 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+      border: none;
+      position: relative;
+      overflow: hidden;
+      background-color: rgba(255, 255, 255, 0.85);
+    }
+
+    /* Different glow colors for each card */
+    .card-income {
+      box-shadow:
+        inset 0 0 15px rgba(0, 0, 0, 0.1),
+        0 0 20px 5px rgba(25, 135, 84, 0.2);
+      /* Green glow for income */
+    }
+
+    .card-investment {
+      box-shadow:
+        inset 0 0 15px rgba(0, 0, 0, 0.1),
+        0 0 20px 5px rgba(13, 110, 253, 0.2);
+      /* Blue glow for investment */
+    }
+
+    .card-given {
+      box-shadow:
+        inset 0 0 15px rgba(0, 0, 0, 0.1),
+        0 0 20px 5px rgba(255, 193, 7, 0.2);
+      /* Yellow glow for given/taken */
+    }
+
+    .card-expenses {
+      box-shadow:
+        inset 0 0 15px rgba(0, 0, 0, 0.1),
+        0 0 20px 5px rgba(220, 53, 69, 0.2);
+      /* Red glow for expenses */
+    }
+
+    .card-summary:hover {
+      transform: translateY(-5px);
+      box-shadow:
+        inset 0 0 20px rgba(0, 0, 0, 0.15),
+        0 0 25px 8px rgba(13, 202, 240, 0.3);
+    }
+
+    /* Specific hover effects for each card type */
+    .card-income:hover {
+      box-shadow:
+        inset 0 0 20px rgba(0, 0, 0, 0.15),
+        0 0 25px 8px rgba(25, 135, 84, 0.3);
+    }
+
+    .card-investment:hover {
+      box-shadow:
+        inset 0 0 20px rgba(0, 0, 0, 0.15),
+        0 0 25px 8px rgba(13, 110, 253, 0.3);
+    }
+
+    .card-given:hover {
+      box-shadow:
+        inset 0 0 20px rgba(0, 0, 0, 0.15),
+        0 0 25px 8px rgba(255, 193, 7, 0.3);
+    }
+
+    .card-expenses:hover {
+      box-shadow:
+        inset 0 0 20px rgba(0, 0, 0, 0.15),
+        0 0 25px 8px rgba(220, 53, 69, 0.3);
+    }
+
+    /* Daily Streak Styles */
+    .streak-container {
+      background: linear-gradient(135deg, rgb(222, 240, 149) 0%, rgb(196, 250, 244) 100%);
+      border-radius: 15px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow:
+        inset 0 0 10px rgba(0, 0, 0, 0.1),
+        0 0 20px 5px rgba(255, 154, 158, 0.3);
+      text-align: center;
+      color: white;
+    }
+
+    .streak-count {
+      font-size: 3rem;
+      font-weight: bold;
+      margin: 10px 0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .streak-label {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .streak-progress {
+      height: 10px;
+      border-radius: 5px;
+      background-color: rgba(255, 255, 255, 0.3);
+      margin: 15px 0;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .streak-progress-bar {
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
   </style>
+
   <section>
-    <div class="text-center mt-4 mb-5">
+    <div class="text-center mt-4 mb-1">
       <!-- Button to open the modal -->
       <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target="#monthly_income">Add Monthly Income</button>
       <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target="#dailyInvestmentModal">Add Daily Investment</button>
@@ -148,17 +279,25 @@ background: radial-gradient(circle, rgba(255,235,115,0.5635504201680672) 0%, rgb
       <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target="#dailyExpensesModal">Daily Expenses </button>
     </div>
   </section>
+  <div class="container py-3">
+    <!-- Daily Streak Section -->
+    <div class="streak-container animate__animated animate__fadeIn">
+      <h3 class="streak-label">Current Daily Login Streak</h3>
+      <div class="streak-count">7 🔥</div>
+      <div class="streak-progress">
+        <div class="streak-progress-bar" style="width: 70%"></div>
+      </div>
+      <p>Keep it up! 3 more days to unlock your weekly reward</p>
+    </div>
 
-  <div class="container container-main mt-lg-5 rounded-1">
-    <div class="mt-lg-5">
-      <div class="spacingtop">
-        <div class="row mt-3 justify-content-center text-center">
-
-          <!-- Monthly Income Card with Hover and Scroll Animation -->
-          <div class="col-lg-5 col-md-6 col-sm-12 bg-light bg-opacity-25 rounded-1 shadow m-2 p-5 clr p-3 content-center animate__animated animate__fadeIn"
-            data-aos="fade-up" data-aos-delay="100">
-            <p class="h2">Monthly Income</p>
-            <p>like salary/Business/</p>
+    <!-- Summary Cards Section -->
+    <div class="row">
+      <!-- Monthly Income Card -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card card-summary card-income text-center p-4">
+          <div class="card-body">
+            <h3 class="card-title">Monthly Income</h3>
+            <p class="card-subtext">Salary/Business Income</p>
             <?php
 
             // Display total income
@@ -169,12 +308,15 @@ background: radial-gradient(circle, rgba(255,235,115,0.5635504201680672) 0%, rgb
             }
             ?>
           </div>
+        </div>
+      </div>
 
-          <!-- Daily Investment Card with Hover and Scroll Animation -->
-          <div class="col-lg-5 col-md-6 col-sm-12 bg-light bg-opacity-25 rounded-1 shadow m-2 p-5 clr p-3 content-center animate__animated animate__fadeIn"
-            data-aos="fade-up" data-aos-delay="200">
-            <p class="h2">Daily Investment</p>
-            <p>like stock investment</p>
+      <!-- Daily Investment Card -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card card-summary card-investment text-center p-4">
+          <div class="card-body">
+            <h3 class="card-title">Daily Investment</h3>
+            <p class="card-subtext">Stock/Mutual Funds</p>
             <?php
             if ($daily_result) {
               echo "<p>Totsl  inventment Till Now " . $daily_result['investmentAmount'] . "</p>";
@@ -182,14 +324,16 @@ background: radial-gradient(circle, rgba(255,235,115,0.5635504201680672) 0%, rgb
               echo "No given/taken data found.";
             }
             ?>
-
           </div>
+        </div>
+      </div>
 
-          <!-- Given & Take Card with Hover and Scroll Animation -->
-          <div class="col-lg-5 col-md-6 col-sm-12 bg-light bg-opacity-25 rounded-1 shadow m-2 p-5 clr p-3 content-center animate__animated animate__fadeIn"
-            data-aos="fade-up" data-aos-delay="300">
-            <p class="h2">Given & Take</p>
-            <p>Record Maintenance</p>
+      <!-- Given & Taken Card -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card card-summary card-given text-center p-4">
+          <div class="card-body">
+            <h3 class="card-title">Given & Taken</h3>
+            <p class="card-subtext">Loan Transactions</p>
             <?php
 
             // Display total given/taken
@@ -201,12 +345,15 @@ background: radial-gradient(circle, rgba(255,235,115,0.5635504201680672) 0%, rgb
 
             ?>
           </div>
+        </div>
+      </div>
 
-          <!-- Daily Expenses Card with Hover and Scroll Animation -->
-          <div class="col-lg-5 col-md-6 col-sm-12 bg-light bg-opacity-25 rounded-1 shadow m-2 p-5 clr p-3 content-center animate__animated animate__fadeIn"
-            data-aos="fade-up" data-aos-delay="400">
-            <p class="h2">Daily Expenses</p>
-            <p>Weekly/Monthly/Yearly Report Generation</p>
+      <!-- Daily Expenses Card -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card card-summary card-expenses text-center p-4">
+          <div class="card-body">
+            <h3 class="card-title">Daily Expenses</h3>
+            <p class="card-subtext">All Daily Expenditures</p>
             <?php
             // Display total expenses
             if ($expenses_result) {
@@ -216,13 +363,12 @@ background: radial-gradient(circle, rgba(255,235,115,0.5635504201680672) 0%, rgb
             }
             ?>
           </div>
-
         </div>
       </div>
     </div>
   </div>
 
-  </div>
+
 
   <!-- Modal Monthly income -->
   <div class="modal fade " id="monthly_income" tabindex="-1" aria-labelledby="monthly_incomeLabel" aria-hidden="true">
@@ -559,10 +705,6 @@ background: radial-gradient(circle, rgba(255,235,115,0.5635504201680672) 0%, rgb
 
 
     try {
-      // Fetch data for 'users'
-      $sql_users = "SELECT id AS user_id, first_name, last_name, middle_name, user_type, dob, gender, email, phone FROM users";
-      $stmt = $pdo->query($sql_users);
-      $users_result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
       // Fetch data for 'daily'
       $sql_daily = "SELECT id AS daily_id, investmentSource, investmentAmount, interestRate, investmentType, investmentDate FROM daily";
@@ -602,35 +744,7 @@ background: radial-gradient(circle, rgba(255,235,115,0.5635504201680672) 0%, rgb
     <body>
 
       <?php
-      if ($users_result) {
-        echo "<h2>Users Table</h2>";
-        echo "<div class='table-responsive'>
-            <table class='table table-striped table-bordered w-100 shadow p-5'>
-                <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Middle Name</th>
-                        <th>User Type</th>
-                        <th>Date of Birth</th>
-                        <th>Gender</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                    </tr>
-                </thead>
-                <tbody>";
-        foreach ($users_result as $user) {
-          echo "<tr>";
-          foreach ($user as $value) {
-            echo "<td>" . $value . "</td>";
-          }
-          echo "</tr>";
-        }
-        echo "</tbody></table></div><br>";
-      } else {
-        echo "No users data found.<br>";
-      }
+      // Display data for 'daily'
 
       if ($daily_result) {
         echo "<h2>Daily Investments Table</h2>";
@@ -659,6 +773,7 @@ background: radial-gradient(circle, rgba(255,235,115,0.5635504201680672) 0%, rgb
         echo "No daily investments data found.<br>";
       }
 
+      // Display data for 'monthly'
       if ($daily_expenses_result) {
         echo "<h2>Daily Expenses Table</h2>";
         echo "<div class='table-responsive'>
@@ -755,6 +870,8 @@ background: radial-gradient(circle, rgba(255,235,115,0.5635504201680672) 0%, rgb
         echo "No given/taken data found.<br>";
       }
 
+
+      //display data of income
       if ($income_result) {
         echo "<h2>Income Table</h2>";
         echo "<div class='table-responsive'>
@@ -784,13 +901,13 @@ background: radial-gradient(circle, rgba(255,235,115,0.5635504201680672) 0%, rgb
 
       ?>
   </div>
-</body>
+  </body>
 
-<section>
-  <div class="container">
+  <section>
+    <div class="container">
 
-  </div>
-</section>
+    </div>
+  </section>
 
 </html>
 

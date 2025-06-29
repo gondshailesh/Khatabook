@@ -51,3 +51,23 @@ document
 
     return true;
   });
+
+// Function to toggle visibility of date input fields based on the status
+function toggleDateFields() {
+  var status = document.getElementById("status").value;
+  var dateGivenGroup = document.getElementById("dateGivenGroup");
+  var dateTakenGroup = document.getElementById("dateTakenGroup");
+
+  if (status === "giver") {
+    dateGivenGroup.style.display = "block"; // Show date of giving
+    dateTakenGroup.style.display = "none"; // Hide date of taking
+  } else if (status === "taker") {
+    dateGivenGroup.style.display = "none"; // Hide date of giving
+    dateTakenGroup.style.display = "block"; // Show date of taking
+  }
+}
+
+// Initialize on page load to show the correct date field
+document.addEventListener("DOMContentLoaded", function () {
+  toggleDateFields();
+});

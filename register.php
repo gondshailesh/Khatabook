@@ -73,7 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <link rel="stylesheet" href="CSS/register.css">
 
   <script>
-    // JavaScript form validation function
     function validateForm() {
       // Get form inputs
       var firstName = document.getElementById("firstName").value;
@@ -86,13 +85,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       // Validate first name
       if (firstName.trim() === "") {
-        alert("First Name is required.");
+        alert("First name is required.");
         return false;
       }
 
       // Validate last name
       if (lastName.trim() === "") {
-        alert("Last Name is required.");
+        alert("Last name is required.");
         return false;
       }
 
@@ -151,42 +150,54 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <div class="card bg-light shadow-lg">
             <div class="card-body mt-3 p-4">
               <form action="register.php" method="post" onsubmit="return validateForm()">
-                <!-- First Name input -->
-                <div class="form-outline mb-2">
-                  <input type="text" id="firstName" class="form-control" name="firstname" required />
-                  <label class="form-label" for="firstName">First Name</label>
+                <!-- First Name and Last Name in one row -->
+                <div class="d-flex">
+                  <div class="form-outline mb-2 me-2 w-50">
+                    <input type="text" id="firstName" class="form-control" name="firstname" required />
+                    <label class="form-label" for="firstName">First Name</label>
+                  </div>
+
+                  <div class="form-outline mb-2 w-50">
+                    <input type="text" id="lastName" class="form-control" name="lastname" required />
+                    <label class="form-label" for="lastName">Last Name</label>
+                  </div>
                 </div>
 
-                <!-- Last Name input -->
-                <div class="form-outline mb-2">
-                  <input type="text" id="lastName" class="form-control" name="lastname" required />
-                  <label class="form-label" for="lastName">Last Name</label>
+                <!-- Middle Name and User Type in one row -->
+                <div class="d-flex">
+                  <div class="form-outline mb-2 me-2 w-50">
+                    <input type="text" id="midName" class="form-control" name="MidName" />
+                    <label class="form-label" for="midName">Middle Name</label>
+                  </div>
+
+                  <div class="form-outline mb-2 w-50">
+                    <select class="form-control" name="user_type" id="userType" required>
+                      <option value="For purpose" disabled selected>Choose User Type</option>
+                      <option value="Personal Use">Personal Use</option>
+                      <option value="Erp Use">ERP Use</option>
+                      <option value="CRM Use">CRM Use</option>
+                    </select>
+                    <label class="form-label" for="userType">User Type</label>
+                  </div>
                 </div>
 
-                <!-- Middle Name input -->
-                <div class="form-outline mb-2">
-                  <input type="text" id="midName" class="form-control" name="MidName" />
-                  <label class="form-label" for="midName">Middle Name</label>
+                <!-- Role and Date of Birth in one row -->
+                <div class="d-flex">
+                  <div class="form-outline mb-2 me-2 w-50">
+                    <select class="form-control" name="role" id="role" required>
+                      <option value="user" selected>User</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                    <label class="form-label" for="role">Role</label>
+                  </div>
+
+                  <div class="form-outline mb-2 w-50">
+                    <input type="date" id="dob" class="form-control" name="dob" required />
+                    <label class="form-label" for="dob">Date of Birth</label>
+                  </div>
                 </div>
 
-                <!-- User Type input -->
-                <div class="form-outline mb-2">
-                  <select class="form-control" name="user_type" id="userType" required>
-                    <option value="Choose User Type" disabled selected>Choose User Type</option>
-                    <option value="Personal Use">Personal Use</option>
-                    <option value="Erp Use">ERP Use</option>
-                    <option value="CRM Use">CRM Use</option>
-                  </select>
-                  <label class="form-label" for="userType">User Type</label>
-                </div>
-
-                <!-- Date of Birth input -->
-                <div class="form-outline mb-2">
-                  <input type="date" id="dob" class="form-control" name="dob" required />
-                  <label class="form-label" for="dob">Date of Birth</label>
-                </div>
-
-                <!-- Gender input -->
+                <!-- Gender Input -->
                 <div class="form-outline mb-2">
                   <label class="form-label">Gender</label>
                   <div class="form-check form-check-inline">
@@ -203,20 +214,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                   </div>
                 </div>
 
-                <!-- Email input -->
-                <div class="form-outline mb-2">
-                  <input type="email" id="email" class="form-control" name="email" required />
-                  <label class="form-label" for="email">Email Address</label>
-                  <input type="tel" id="phone" class="form-control" name="phone" required />
-                  <label class="form-label" for="phone">Phone Number</label>
+                <!-- Email and Phone in one row -->
+                <div class="d-flex">
+                  <div class="form-outline mb-2 me-2 w-50">
+                    <input type="email" id="email" class="form-control" name="email" required />
+                    <label class="form-label" for="email">Email Address</label>
+                  </div>
+
+                  <div class="form-outline mb-2 w-50">
+                    <input type="tel" id="phone" class="form-control" name="phone" required />
+                    <label class="form-label" for="phone">Phone Number</label>
+                  </div>
                 </div>
 
-                <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-2">
-                  Register
-                </button>
+                <!-- Submit Button -->
+                <div class="form-outline mb-2">
+                  <button type="submit" class="btn btn-primary btn-block mb-2" onclick="validateForm()">
+                    Register
+                  </button>
+                </div>
 
-                <!-- Login link -->
+                <!-- Login Link -->
                 <div class="text-center">
                   <p>If you already have an account, <a href="login.php">Click here to Login</a></p>
                 </div>
