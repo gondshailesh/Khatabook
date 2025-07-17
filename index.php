@@ -1,11 +1,6 @@
 <?php
 session_start();
 
-
-
-
-
-
 if (!isset($_SESSION['user_id'])) {
   header('Location: login.php');
   exit();
@@ -28,7 +23,7 @@ if (isset($_POST['income'])) {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$incomeSource, $totalAmount, $incomeType, $incomeDate]);
 
-    echo "Successfully added information of Income ";
+    echo "<div class='alert alert-success'>Successfully added information of Income </div>";
   } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
   }
@@ -101,173 +96,16 @@ try {
 </head>
 
 
-<div class="body" style="">
+<div class="body">
 
 
   <?php include 'header.php';
+  //get message of header function
+
 
   ?>
   <style>
-    /*bg body*/
-    .body {
-      background: rgb(222, 240, 255);
-      background: linear-gradient(117deg, rgba(222, 240, 255, 0.5635504201680672) 0%, rgba(192, 237, 255, 0.5467436974789917) 31%, rgba(204, 205, 242, 0.6694327389158788) 64%, rgba(181, 182, 182, 0.3534663865546218) 100%, rgba(245, 204, 233, 1) 120%);
-    }
 
-    /* Hover effect for buttons */
-    .btn:hover {
-      background-color: #0056b3;
-      transform: scale(1.05);
-      transition: background-color 0.3s ease, transform 0.3s ease;
-    }
-
-    /* Hover effect for cards with animation */
-    .clr:hover {
-      background-color: black;
-      color: black;
-      transform: scale(1.05);
-      animation: cardHover 0.3s ease-in-out;
-      transition: all 0.3s ease;
-    }
-
-    .clr {
-      color: whitesmoke;
-    }
-
-    @keyframes cardHover {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.05);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    /* Card Styles with Inner Shadow and Outer Glow */
-    .card-summary {
-      border-radius: 15px;
-      box-shadow:
-        inset 0 0 15px rgba(0, 0, 0, 0.1),
-        /* Inner shadow */
-        0 0 20px 5px rgba(13, 202, 240, 0.2);
-      /* Outer glow (20% opacity) */
-      transition: all 0.3s ease;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      backdrop-filter: blur(5px);
-      border: none;
-      position: relative;
-      overflow: hidden;
-      background-color: rgba(255, 255, 255, 0.85);
-    }
-
-    /* Different glow colors for each card */
-    .card-income {
-      box-shadow:
-        inset 0 0 15px rgba(0, 0, 0, 0.1),
-        0 0 20px 5px rgba(25, 135, 84, 0.2);
-      /* Green glow for income */
-    }
-
-    .card-investment {
-      box-shadow:
-        inset 0 0 15px rgba(0, 0, 0, 0.1),
-        0 0 20px 5px rgba(13, 110, 253, 0.2);
-      /* Blue glow for investment */
-    }
-
-    .card-given {
-      box-shadow:
-        inset 0 0 15px rgba(0, 0, 0, 0.1),
-        0 0 20px 5px rgba(255, 193, 7, 0.2);
-      /* Yellow glow for given/taken */
-    }
-
-    .card-expenses {
-      box-shadow:
-        inset 0 0 15px rgba(0, 0, 0, 0.1),
-        0 0 20px 5px rgba(220, 53, 69, 0.2);
-      /* Red glow for expenses */
-    }
-
-    .card-summary:hover {
-      transform: translateY(-5px);
-      box-shadow:
-        inset 0 0 20px rgba(0, 0, 0, 0.15),
-        0 0 25px 8px rgba(13, 202, 240, 0.3);
-    }
-
-    /* Specific hover effects for each card type */
-    .card-income:hover {
-      box-shadow:
-        inset 0 0 20px rgba(0, 0, 0, 0.15),
-        0 0 25px 8px rgba(25, 135, 84, 0.3);
-    }
-
-    .card-investment:hover {
-      box-shadow:
-        inset 0 0 20px rgba(0, 0, 0, 0.15),
-        0 0 25px 8px rgba(13, 110, 253, 0.3);
-    }
-
-    .card-given:hover {
-      box-shadow:
-        inset 0 0 20px rgba(0, 0, 0, 0.15),
-        0 0 25px 8px rgba(255, 193, 7, 0.3);
-    }
-
-    .card-expenses:hover {
-      box-shadow:
-        inset 0 0 20px rgba(0, 0, 0, 0.15),
-        0 0 25px 8px rgba(220, 53, 69, 0.3);
-    }
-
-    /* Daily Streak Styles */
-    .streak-container {
-      background: linear-gradient(135deg, rgb(222, 240, 149) 0%, rgb(196, 250, 244) 100%);
-      border-radius: 15px;
-      padding: 20px;
-      margin: 20px 0;
-      box-shadow:
-        inset 0 0 10px rgba(0, 0, 0, 0.1),
-        0 0 20px 5px rgba(255, 154, 158, 0.3);
-      text-align: center;
-      color: white;
-    }
-
-    .streak-count {
-      font-size: 3rem;
-      font-weight: bold;
-      margin: 10px 0;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    .streak-label {
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    }
-
-    .streak-progress {
-      height: 10px;
-      border-radius: 5px;
-      background-color: rgba(255, 255, 255, 0.3);
-      margin: 15px 0;
-      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
-    }
-
-    .streak-progress-bar {
-      background-color: white;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
   </style>
 
   <section>
@@ -279,9 +117,9 @@ try {
       <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target="#dailyExpensesModal">Daily Expenses </button>
     </div>
   </section>
-  <div class="container py-3">
+  <div class="container py-3 ">
     <!-- Daily Streak Section -->
-    <div class="streak-container animate__animated animate__fadeIn">
+    <div class="streak-container animate__animated animate__fadeIn bg-warning  bg-opacity-50">
       <h3 class="streak-label">Current Daily Login Streak</h3>
       <div class="streak-count">7 🔥</div>
       <div class="streak-progress">
@@ -321,7 +159,7 @@ try {
             if ($daily_result) {
               echo "<p>Totsl  inventment Till Now " . $daily_result['investmentAmount'] . "</p>";
             } else {
-              echo "No given/taken data found.";
+              echo "<div class='alert alert-danger'>No given/taken data found.</div>";
             }
             ?>
           </div>
@@ -340,7 +178,7 @@ try {
             if ($giventaken_result) {
               echo "<p>Total Given/Taken: " . $giventaken_result['totalGivenTaken'] . "</p>";
             } else {
-              echo "No given/taken data found.";
+              echo "<div class='alert alert-danger'>No given/taken data found.</div>";
             }
 
             ?>
@@ -443,8 +281,8 @@ try {
 
       $stmt = $pdo->prepare($sql);
       $stmt->execute([$investmentSource, $investmentAmount, $interestRate, $investmentType, $investmentDate]);
-
-      echo "Successfully added information of Income ";
+      //pass the message to the same page at the top of the page using header message word
+      header("Location: index.php?message=success_income");
     } catch (PDOException $e) {
       echo "Error: " . $e->getMessage();
     }
@@ -694,7 +532,7 @@ try {
           $stmt->execute([$expenseName, $expenseDate, $expenseAmount]);
 
           // Show success message
-          echo "Daily expense added successfully!";
+          echo "<div class'alert alert-success'>Daily expense added successfully!</div>";
         } catch (PDOException $e) {
           // Handle SQL errors
           echo "Error: " . $e->getMessage();
@@ -744,80 +582,128 @@ try {
     <body>
 
       <?php
-      // Display data for 'daily'
+      // Function to display pagination controls
+      function displayPagination($current_page, $total_pages, $query_param = 'page')
+      {
+        echo "<nav aria-label='Page navigation'>
+        <ul class='pagination justify-content-center'>
+            <li class='page-item " . ($current_page == 1 ? 'disabled' : '') . "'>
+                <a class='page-link' href='?" . $query_param . "=" . ($current_page - 1) . "' aria-label='Previous'>
+                    <span aria-hidden='true'>&laquo;</span>
+                </a>
+            </li>";
 
+        for ($i = 1; $i <= $total_pages; $i++) {
+          echo "<li class='page-item " . ($current_page == $i ? 'active' : '') . "'>
+                <a class='page-link' href='?" . $query_param . "=" . $i . "'>" . $i . "</a>
+              </li>";
+        }
+
+        echo "<li class='page-item " . ($current_page == $total_pages ? 'disabled' : '') . "'>
+                <a class='page-link' href='?" . $query_param . "=" . ($current_page + 1) . "' aria-label='Next'>
+                    <span aria-hidden='true'>&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>";
+      }
+
+      // Display data for 'daily' with pagination
       if ($daily_result) {
+        $daily_page = isset($_GET['daily_page']) ? max(1, intval($_GET['daily_page'])) : 1;
+        $records_per_page = 5;
+        $daily_total_pages = ceil(count($daily_result) / $records_per_page);
+        $daily_paged_data = array_slice($daily_result, ($daily_page - 1) * $records_per_page, $records_per_page);
+
         echo "<h2>Daily Investments Table</h2>";
-        echo "<div class='table-responsive'>
-            <table class='table table-striped table-bordered w-100 shadow p-5'>
-                <thead>
-                    <tr>
-                        <th>Daily ID</th>
-                        <th>Investment Source</th>
-                        <th>Investment Amount</th>
-                        <th>Interest Rate</th>
-                        <th>Investment Type</th>
-                        <th>Investment Date</th>
-                    </tr>
-                </thead>
-                <tbody>";
-        foreach ($daily_result as $daily) {
+        echo "<div class='table-responsive '>
+        <table class='table table-striped table-hover table-bordered w-100 shadow p-5'>
+            <thead>
+                <tr>
+                    <th>Daily ID</th>
+                    <th>Investment Source</th>
+                    <th>Investment Amount</th>
+                    <th>Interest Rate</th>
+                    <th>Investment Type</th>
+                    <th>Investment Date</th>
+                    <th class='text-center'>Actions</th>
+                </tr>
+            </thead>
+            <tbody>";
+
+        foreach ($daily_paged_data as $daily) {
           echo "<tr>";
           foreach ($daily as $value) {
-            echo "<td>" . $value . "</td>";
+            echo "<td>" . htmlspecialchars($value) . "</td>";
           }
+          echo "<td class='text-center'>
+            <div class='btn-group' role='group'>
+                <a href='edit_daily.php?id=" . $daily['daily_id'] . "' class='btn btn-sm btn-warning' onclick'warning();'>Edit</a>
+                <a href='?delete_daily=" . $daily['daily_id'] . "&daily_page=" . $daily_page . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Are you sure you want to delete this record?\")'>Delete</a>
+            </div>
+        </td>";
           echo "</tr>";
         }
-        echo "</tbody></table></div><br>";
+
+        echo "</tbody></table></div>";
+        displayPagination($daily_page, $daily_total_pages, 'daily_page');
+        echo "<br>";
       } else {
-        echo "No daily investments data found.<br>";
+        echo "<div class='alert alert-danger'>No daily investments data found</div>";
       }
 
-      // Display data for 'monthly'
+      // Display data for 'daily_expenses' with pagination
       if ($daily_expenses_result) {
+        $expense_page = isset($_GET['expense_page']) ? max(1, intval($_GET['expense_page'])) : 1;
+        $records_per_page = 5;
+        $expense_total_pages = ceil(count($daily_expenses_result) / $records_per_page);
+        $expense_paged_data = array_slice($daily_expenses_result, ($expense_page - 1) * $records_per_page, $records_per_page);
+
         echo "<h2>Daily Expenses Table</h2>";
         echo "<div class='table-responsive'>
-            <table class='table table-striped table-bordered w-100 shadow'>
-                <thead>
-                    <tr>
-                        <th>Daily Expense ID</th>
-                        <th>Expense Name</th>
-                        <th>Expense Date</th>
-                        <th>Expense Amount</th>
-                    </tr>
-                </thead>
-                <tbody>";
-        foreach ($daily_expenses_result as $expense) {
+        <table class='table table-striped table-hover table-bordered w-100 shadow p-5'>
+            <thead>
+                <tr>
+                    <th>Daily Expense ID</th>
+                    <th>Expense Name</th>
+                    <th>Expense Date</th>
+                    <th>Expense Amount</th>
+                    <th class='text-center'>Actions</th>
+                </tr>
+            </thead>
+            <tbody>";
+
+        foreach ($expense_paged_data as $expense) {
           echo "<tr>";
           foreach ($expense as $value) {
-            echo "<td>" . $value . "</td>";
+            echo "<td>" . htmlspecialchars($value) . "</td>";
           }
+          echo "<td class='text-center'>
+            <div class='btn-group' role='group'>
+                <a href='edit_expense.php?id=" . $expense['daily_expense_id'] . "' class='btn btn-sm btn-warning'>Edit</a>
+                <a href='?delete_expense=" . $expense['daily_expense_id'] . "&expense_page=" . $expense_page . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Are you sure you want to delete this record?\")'>Delete</a>
+            </div>
+        </td>";
           echo "</tr>";
         }
-        echo "</tbody></table></div><br>";
+
+        echo "</tbody></table></div>";
+        displayPagination($expense_page, $expense_total_pages, 'expense_page');
+        echo "<br>";
       } else {
-        echo "No daily expenses data found.<br>";
+        echo "<div class='alert alert-danger'>No daily expenses data found</div>";
       }
-      // Assuming $giventaken_result is your data array or query result
 
-      // Pagination variables
-      $records_per_page = 5;
-      $total_records = count($giventaken_result); // or use a database query to count records if you're using SQL
-      $total_pages = ceil($total_records / $records_per_page);
+      // Display data for 'giventaken' with pagination
+      if ($giventaken_result) {
+        $gt_page = isset($_GET['gt_page']) ? max(1, intval($_GET['gt_page'])) : 1;
+        $records_per_page = 5;
+        $gt_total_pages = ceil(count($giventaken_result) / $records_per_page);
+        $gt_paged_data = array_slice($giventaken_result, ($gt_page - 1) * $records_per_page, $records_per_page);
 
-      // Get the current page number, default is 1
-      $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-
-      // Calculate the starting record for the current page
-      $start_record = ($current_page - 1) * $records_per_page;
-
-      // Slice the result array to get the records for the current page
-      $paged_result = array_slice($giventaken_result, $start_record, $records_per_page);
-
-      if ($paged_result) {
         echo "<h2>Given/Taken Table</h2>";
         echo "<div class='table-responsive'>
-        <table class='table table-striped table-bordered w-100 shadow p-5'>
+        <table class=' table table-striped table-hover table-bordered w-100 shadow p-5'>
             <thead>
                 <tr>
                     <th>Given/Taken ID</th>
@@ -828,77 +714,74 @@ try {
                     <th>Date Returning</th>
                     <th>Transaction Message</th>
                     <th>Amount Given/Taken</th>
+                    <th class='text-center'>Actions</th>
                 </tr>
             </thead>
             <tbody>";
 
-        // Loop through the paged result and display each record
-        foreach ($paged_result as $gt) {
+        foreach ($gt_paged_data as $gt) {
           echo "<tr>";
           foreach ($gt as $value) {
-            echo "<td>" . $value . "</td>";
+            echo "<td>" . htmlspecialchars($value) . "</td>";
           }
+          echo "<td class='text-center'>
+            <div class='btn-group' role='group'>
+                <a href='edit_giventaken.php?id=" . $gt['giventaken_id'] . "' class='btn btn-sm btn-warning'>Edit</a>
+                <a href='?delete_giventaken=" . $gt['giventaken_id'] . "&gt_page=" . $gt_page . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Are you sure you want to delete this record?\")'>Delete</a>
+            </div>
+        </td>";
           echo "</tr>";
         }
 
-        echo "</tbody></table></div><br>";
-
-        // Pagination links
-        echo "<div class='pagination'>";
-
-        // Previous page link
-        if ($current_page > 1) {
-          echo "<a href='?page=" . ($current_page - 1) . "'>&laquo; Previous</a>";
-        }
-
-        // Page number links
-        for ($page = 1; $page <= $total_pages; $page++) {
-          if ($page == $current_page) {
-            echo "<span class='current'>" . $page . "</span>";
-          } else {
-            echo "<a href='?page=" . $page . "'>" . $page . "</a>";
-          }
-        }
-
-        // Next page link
-        if ($current_page < $total_pages) {
-          echo "<a href='?page=" . ($current_page + 1) . "'>Next &raquo;</a>";
-        }
-
-        echo "</div>"; // Close pagination
+        echo "</tbody></table></div>";
+        displayPagination($gt_page, $gt_total_pages, 'gt_page');
+        echo "<br>";
       } else {
-        echo "No given/taken data found.<br>";
+        echo "<div class='alert alert-danger'>No given/taken data found.</div><br>";
       }
 
-
-      //display data of income
+      // Display data for 'income' with pagination
       if ($income_result) {
+        $income_page = isset($_GET['income_page']) ? max(1, intval($_GET['income_page'])) : 1;
+        $records_per_page = 5;
+        $income_total_pages = ceil(count($income_result) / $records_per_page);
+        $income_paged_data = array_slice($income_result, ($income_page - 1) * $records_per_page, $records_per_page);
+
         echo "<h2>Income Table</h2>";
         echo "<div class='table-responsive'>
-            <table class='table table-striped table-bordered w-100 shadow p-5'>
-                <thead>
-                    <tr>
-                        <th>Income ID</th>
-                        <th>Income Source</th>
-                        <th>Income Type</th>
-                        <th>Total Amount</th>
-                        <th>Income Date</th>
-                    </tr>
-                </thead>
-                <tbody>";
-        foreach ($income_result as $income) {
+        <table class='table table-striped table-hover table-bordered w-100 shadow p-5'>
+            <thead>
+                <tr>
+                    <th>Income ID</th>
+                    <th>Income Source</th>
+                    <th>Income Type</th>
+                    <th>Total Amount</th>
+                    <th>Income Date</th>
+                    <th class='text-center'>Actions</th>
+                </tr>
+            </thead>
+            <tbody>";
+
+        foreach ($income_paged_data as $income) {
           echo "<tr>";
           foreach ($income as $value) {
-            echo "<td>" . $value . "</td>";
+            echo "<td>" . htmlspecialchars($value) . "</td>";
           }
+          echo "<td class='text-center'>
+            <div class='btn-group' role='group'>
+                <a href='edit_income.php?id=" . $income['income_id'] . "' class='btn btn-sm btn-warning'>Edit</a>
+                <a href='?delete_income=" . $income['income_id'] . "&income_page=" . $income_page . "' class='btn btn-sm btn-danger' onclick='return confirm(\"Are you sure you want to delete this record?\")'>Delete</a>
+            </div>
+        </td>";
           echo "</tr>";
         }
-        echo "</tbody></table></div><br>";
+
+        echo "</tbody></table></div>";
+        displayPagination($income_page, $income_total_pages, 'income_page');
+        echo "<br>";
       } else {
-        echo "No income data found.<br>";
+        echo "<div class='alert alert-danger'> No income data found.</div><br>";
       }
-
-
       ?>
   </div>
   </body>
@@ -969,7 +852,7 @@ try {
 <!-- Initialize AOS -->
 <script>
   AOS.init({
-    duration: 1000, // animation duration
+    duration: 10000, // animation duration
     easing: 'ease-in-out', // easing effect for animation
     once: true, // animation happens only once when scrolling to the element
   });

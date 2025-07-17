@@ -49,8 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $_SESSION['first_name'] = $firstName;
     $_SESSION['last_name'] = $lastName;
 
-    // Redirect to the 'khatabook.php' page after successful registration
-    header("Location: khatabook.php");
+    // Redirect to the 'index.php' page after successful registration
+    header("Location: index.php");
     exit; // Ensure that no further code is executed after the redirect
   } catch (PDOException $e) {
     // If an error occurs, display an error message

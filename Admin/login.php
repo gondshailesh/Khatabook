@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['user_id'])) {
-    header("Location: khatabook.php"); // Redirect to dashboard if already logged in
+    header("Location: index.php"); // Redirect to dashboard if already logged in
     exit;
 }
 ?>

@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['email'] = $user['email'];
 
         // Redirect to dashboard
-        header("Location: khatabook.php");
+        header("Location: index.php");
         exit;
     } else {
         // Invalid credentials
