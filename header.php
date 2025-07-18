@@ -162,6 +162,9 @@
 </head>
 
 <body class="body">
+  <?php
+  include("header.php");
+  ?>
   <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
@@ -187,7 +190,7 @@
               <a class="nav-link" href="Account_info.php">Account Info</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Dues</a>
+              <a class="nav-link" href="Due.php">Dues</a>
             </li>
             <li class="nav-item">
               <button class="btn btn-danger" onclick="logout()">Logout</button>

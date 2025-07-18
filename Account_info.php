@@ -1,3 +1,48 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
+include('conn.php');
+
+// Handle password, username, amount update
+if (isset($_POST['account_update'])) {
+    try {
+        $username = $_POST['username'];
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $amount = $_POST['total_amount'];
+
+        $stmt = $pdo->prepare("UPDATE users SET username = ?, password = ?, total_amount = ? WHERE id = ?");
+        $stmt->execute([$username, $password, $amount, $_SESSION['user_id']]);
+        $account_message = "Account details updated successfully!";
+    } catch (PDOException $e) {
+        $account_error = "Error updating account: " . $e->getMessage();
+    }
+}
+
+// Fetch totals
+try {
+    $sql_income = "SELECT SUM(totalAmount) AS monthly_income FROM income WHERE MONTH(incomeDate) = MONTH(CURDATE())";
+    $stmt_income = $pdo->query($sql_income);
+    $monthly_income = $stmt_income->fetch(PDO::FETCH_ASSOC);
+
+    $sql_exp_month = "SELECT SUM(expenseAmount) AS monthly_expenses FROM daily_expenses WHERE MONTH(expenseDate) = MONTH(CURDATE())";
+    $stmt_exp_month = $pdo->query($sql_exp_month);
+    $monthly_expenses = $stmt_exp_month->fetch(PDO::FETCH_ASSOC);
+
+    $sql_exp_year = "SELECT SUM(expenseAmount) AS yearly_expenses FROM daily_expenses WHERE YEAR(expenseDate) = YEAR(CURDATE())";
+    $stmt_exp_year = $pdo->query($sql_exp_year);
+    $yearly_expenses = $stmt_exp_year->fetch(PDO::FETCH_ASSOC);
+
+    $sql_inv_year = "SELECT SUM(investmentAmount) AS yearly_investment FROM daily WHERE YEAR(investmentDate) = YEAR(CURDATE())";
+    $stmt_inv_year = $pdo->query($sql_inv_year);
+    $yearly_investment = $stmt_inv_year->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,29 +50,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Info</title>
-    <link rel="stylesheet" href="/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <style>
-        /*bg body*/
-        .body {
-            background: rgb(222, 240, 255);
-            background: linear-gradient(117deg,
-                    rgba(222, 240, 255, 0.5635504201680672) 0%,
-                    rgba(192, 237, 255, 0.5467436974789917) 31%,
-                    rgba(204, 205, 242, 0.6694327389158788) 64%,
-                    rgba(181, 182, 182, 0.3534663865546218) 100%,
-                    rgba(245, 204, 233, 1) 120%);
-        }
-    </style>
+    <?php include('header.php'); ?>
+    <div class="container py-4">
+        <h2 class="mb-4">Account Information</h2>
 
-    <?php
-    include('header.php');
-    ?>
-    <div class="container-fluid  p-3 body">
-        <div class="container card">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet minima dolor nostrum excepturi necessitatibus iusto provident fuga libero, ipsum obcaecati! Soluta, odio hic incidunt possimus qui quod, voluptas at beatae totam natus voluptatum! Quae quasi iusto veniam rerum omnis ipsa expedita! Nemo magni esse recusandae non corporis, magnam omnis nulla et! Libero ipsa error inventore explicabo voluptatem esse, laudantium est exercitationem tenetur dicta cumque ullam, iste tempora corrupti eos fugit sed nesciunt illo? Voluptatum voluptatibus culpa, tempora corrupti optio ipsa nihil, nam quas amet aliquam omnis, minus incidunt accusamus mollitia adipisci officia? Obcaecati voluptatum mollitia sed autem dignissimos vitae error provident hic iste, quas aliquam, velit fugit accusantium alias dolore? Molestias, unde illo? Tenetur repudiandae dicta doloremque consectetur pariatur, praesentium odit, optio modi sapiente obcaecati illum accusamus atque unde quisquam nobis dolorum sint ducimus sunt. Impedit voluptas tenetur unde in maxime blanditiis! Eaque similique rem magnam, incidunt esse quidem earum eius quae. Cumque maiores odio, beatae explicabo quis quaerat assumenda dolorem atque ab. Quisquam, cupiditate sequi! Minus sed iure atque laboriosam consectetur quos cumque consequuntur recusandae ut enim esse laborum illum, ratione minima qui dignissimos deleniti repellendus sequi sunt. Ad consequuntur error, dolorum, cumque eos ipsam illum illo voluptates laborum fugiat accusamus molestias ab inventore rerum ea earum distinctio magni provident voluptate dolore est esse ut alias aperiam. Accusantium, vero delectus sint consequatur, minus odio ut eligendi ipsa aspernatur harum ratione dolorum est nemo doloremque sapiente possimus recusandae optio culpa autem. Veritatis, quasi! Consequuntur id ipsam quia reprehenderit vel veniam nam atque blanditiis totam! Sapiente deleniti iste earum eligendi quo laudantium voluptate. Sapiente, magnam minus nisi recusandae dicta ab assumenda eius eum doloribus voluptates sequi nostrum enim architecto nobis tenetur sed explicabo perspiciatis doloremque debitis inventore temporibus perferendis blanditiis illo. Consectetur beatae natus culpa voluptatum, autem fugiat consequatur odit ratione.</div>
+        <?php if (isset($account_message)): ?>
+            <div class="alert alert-success"><?= $account_message ?></div>
+        <?php endif; ?>
+        <?php if (isset($account_error)): ?>
+            <div class="alert alert-danger"><?= $account_error ?></div>
+        <?php endif; ?>
+
+        <form method="POST">
+            <input type="hidden" name="account_update" value="1">
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Total Amount</label>
+                <input type="number" name="total_amount" class="form-control" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Update Account</button>
+        </form>
+
+        <hr>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Monthly Income</h5>
+                        <p class="card-text">₹ <?= $monthly_income['monthly_income'] ?? '0' ?></p>
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Monthly Expenses</h5>
+                        <p class="card-text">₹ <?= $monthly_expenses['monthly_expenses'] ?? '0' ?></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Yearly Expenses</h5>
+                        <p class="card-text">₹ <?= $yearly_expenses['yearly_expenses'] ?? '0' ?></p>
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Yearly Investment</h5>
+                        <p class="card-text">₹ <?= $yearly_investment['yearly_investment'] ?? '0' ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
