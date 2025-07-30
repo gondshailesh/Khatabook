@@ -162,10 +162,7 @@
 </head>
 
 <body class="body">
-  <?php
-  include("header.php");
-  ?>
-  <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <img src="images/Clearifi/png/logo-no-background.png" class="img-fluid" height="100" width="200" alt="Logo">
